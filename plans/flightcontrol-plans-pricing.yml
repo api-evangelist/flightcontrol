@@ -1,0 +1,211 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Flightcontrol
+providerId: flightcontrol
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: true
+tags:
+- Deployment
+- AWS
+- PaaS
+- Infrastructure
+- DevOps
+- Plans
+description: >-
+  Flightcontrol charges a fixed monthly subscription fee for its platform on top
+  of your own AWS infrastructure costs (which you pay directly to AWS). Tiers are
+  defined by the number of included services, the number of users, and the set of
+  platform features (preview environments, RBAC, multi-region, SSO, compliance
+  reports, support level). Additional services beyond a plan's included count are
+  billed per service per month. The HTTP API and deploy hooks are available across
+  plans.
+notes: >-
+  Prices reflect the Flightcontrol pricing page; verify current numbers, service
+  caps, and feature gating on the page during reconciliation. AWS usage is billed
+  separately by AWS.
+sources:
+- https://www.flightcontrol.dev/pricing
+- https://www.flightcontrol.dev/docs
+plans:
+- id: flightcontrol-single-user
+  name: Single User (Free)
+  type: free
+  description: >-
+    Free single-user plan for personal repositories with unlimited projects,
+    environments, and deployments. Community support. AWS infrastructure billed
+    separately.
+  entries:
+  - label: Monthly Platform Fee
+    name: platform_fee
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  - label: Included Users
+    name: users
+    type: flat
+    metric: users
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  elements:
+  - name: Personal Single-User Repos
+  - name: Unlimited Projects / Environments / Deployments
+  - name: HTTP API and Deploy Hooks
+  - name: Email Notifications
+  - name: Community Support
+- id: flightcontrol-starter
+  name: Starter
+  type: paid
+  description: >-
+    Team plan with 5 included services, GitHub organization support, and business
+    support. Additional services billed per service per month.
+  entries:
+  - label: Monthly Platform Fee
+    name: platform_fee
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $97 per month
+    userMultiplied: false
+  - label: Included Services
+    name: included_services
+    type: flat
+    metric: services
+    limit: 5
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: Additional Service
+    name: additional_service
+    type: usage
+    metric: services
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $20 per service per month
+    userMultiplied: false
+  - label: Included Users
+    name: users
+    type: flat
+    metric: users
+    limit: 25
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  elements:
+  - name: GitHub Organizations Support
+  - name: Unlimited Projects / Environments / Deployments
+  - name: HTTP API and Deploy Hooks
+  - name: Email Notifications
+  - name: Business Support
+- id: flightcontrol-business
+  name: Business
+  type: paid
+  description: >-
+    Advanced team plan with 10 included services, preview environments, multiple
+    custom domains, role-based access control, multi-region applications, and 24/7
+    emergency business support.
+  entries:
+  - label: Monthly Platform Fee
+    name: platform_fee
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $397 per month
+    userMultiplied: false
+  - label: Included Services
+    name: included_services
+    type: flat
+    metric: services
+    limit: 10
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: Additional Service
+    name: additional_service
+    type: usage
+    metric: services
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $30 per service per month
+    userMultiplied: false
+  - label: Included Users
+    name: users
+    type: flat
+    metric: users
+    limit: 100
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  elements:
+  - name: Preview Environments
+  - name: Multiple Custom Domains
+  - name: Role-Based Access Control (RBAC)
+  - name: Multi-Region Applications
+  - name: Slack Notifications
+  - name: SOC 3 Report
+  - name: 24/7 Emergency Business Support
+- id: flightcontrol-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom plan with everything in Business plus SAML SSO, SCIM directory sync,
+    SOC 2 Type II report, SLAs, and a dedicated account manager. Contact sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  - label: Included Users
+    name: users
+    type: flat
+    metric: users
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: unlimited
+    userMultiplied: false
+  elements:
+  - name: SAML Single Sign-On (SSO)
+  - name: SCIM Directory Sync
+  - name: SOC 2 Type II Report
+  - name: SLAs
+  - name: Dedicated Account Manager
+  - name: Enterprise Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

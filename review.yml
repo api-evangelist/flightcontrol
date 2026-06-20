@@ -1,0 +1,75 @@
+aid: flightcontrol
+name: Flightcontrol
+review:
+  question: Does Flightcontrol expose a documented public WebSocket or event-driven streaming API suitable for AsyncAPI modeling?
+  answer: false
+  date: '2026-06-20'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was created. Flightcontrol's documented public surface is
+    entirely synchronous request/response HTTP. The "deploy hooks" are inbound
+    HTTPS GET endpoints the client calls to trigger a deployment - they are not an
+    outbound publish/subscribe or webhook-callback stream that Flightcontrol pushes
+    to a consumer. No Server-Sent Events (SSE), WebSocket, or message-broker
+    channel is documented, so there is no event-driven transport to model in
+    AsyncAPI. Deployment progress is observed by polling GET /v1/deployments/{id}.
+findings:
+  summary: |
+    Flightcontrol publishes a synchronous HTTP management API at
+    https://api.flightcontrol.dev/v1 (Bearer API-key auth) plus deploy-hook
+    endpoints at https://app.flightcontrol.dev/api/deploy-hook/... (secret in the
+    URL path). All documented operations are standard REST request/response. There
+    is no documented WebSocket (ws:// or wss://), no Server-Sent Events stream, and
+    no provider-pushed webhook callback channel. Deployment status is retrieved by
+    polling the Get Deployment endpoint after a deploy hook returns a deploymentId.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.flightcontrol.dev/v1
+      documented: true
+    - protocol: REST
+      scheme: https
+      baseURL: https://app.flightcontrol.dev/api
+      note: Deploy-hook GET endpoints with the secret embedded in the path; no Authorization header.
+      documented: true
+    - protocol: SSE
+      scheme: https
+      documented: false
+      note: No Server-Sent Events streaming endpoint is documented.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in the Flightcontrol HTTP API reference.
+  endpointsConfirmedRest:
+    - GET    https://api.flightcontrol.dev/v1/deployments/{deploymentId}
+    - POST   https://api.flightcontrol.dev/v1/projects/{projectId}/environments
+    - PATCH  https://api.flightcontrol.dev/v1/projects/{projectId}/environments
+    - GET    https://api.flightcontrol.dev/v1/services
+    - POST   https://api.flightcontrol.dev/v1/services/{serviceId}/scaling
+    - POST   https://api.flightcontrol.dev/v1/environments/{environmentId}/env-variables
+    - POST   https://api.flightcontrol.dev/v1/services/{serviceId}/cloudfront/invalidation
+    - GET    https://api.flightcontrol.dev/v1/cloudfront/invalidation/{invalidationId}
+    - GET    https://app.flightcontrol.dev/api/deploy-hook/{envId}/{secret}
+    - GET    https://app.flightcontrol.dev/api/deploy-hook/{previewEnvId}/{secret}/{prNumber}/{commitSHA}
+sources:
+  - url: https://www.flightcontrol.dev/docs/reference/http-api
+    type: APIReference
+    note: HTTP API overview; all listed operations are synchronous REST with Bearer API-key auth.
+  - url: https://www.flightcontrol.dev/docs/reference/http-api/deployments/deploy-hooks
+    type: Documentation
+    note: Deploy hooks are client-initiated HTTPS GET calls that return a deploymentId; not a pushed stream.
+  - url: https://www.flightcontrol.dev/docs/reference/http-api/deployments/get-deployment
+    type: Documentation
+    note: Deployment status is polled via GET; no streaming transport documented.
+  - url: https://www.flightcontrol.dev/docs/reference/http-api/cloudfront/cache-invalidation-api
+    type: Documentation
+    note: CloudFront invalidation create and status endpoints are synchronous REST.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No event-driven, streaming, or WebSocket protocol surface exists in
+    Flightcontrol's documented public API, so no AsyncAPI document was authored.
+    The OpenAPI specification at openapi/flightcontrol-openapi.yml captures the
+    real synchronous REST and deploy-hook endpoints, and apis.yml references it.

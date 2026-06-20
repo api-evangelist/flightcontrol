@@ -1,0 +1,191 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Flightcontrol Management API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{apiKey}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Deployments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.flightcontrol.dev/v1/deployments/{deploymentId}"
+          },
+          "docs": "Retrieve information and status for a deployment, including per-service deployment details."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Environments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.flightcontrol.dev/v1/projects/{projectId}/environments",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"production\",\n  \"region\": \"us-east-1\",\n  \"source\": { \"branch\": \"main\", \"trigger\": \"push\" }\n}"
+            }
+          },
+          "docs": "Create a new environment in a project."
+        },
+        {
+          "info": {
+            "name": "Edit environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.flightcontrol.dev/v1/projects/{projectId}/environments",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"production\",\n  \"region\": \"us-east-1\"\n}"
+            }
+          },
+          "docs": "Edit an existing environment in a project."
+        },
+        {
+          "info": {
+            "name": "Create environment variables",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.flightcontrol.dev/v1/environments/{environmentId}/env-variables",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"plainText\": { \"NODE_ENV\": \"production\" },\n  \"secretsManager\": { \"API_SECRET\": \"api-secret-456\" }\n}"
+            }
+          },
+          "docs": "Set environment variables for an environment (plain text, FC-managed secrets, references, or service links)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Services",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.flightcontrol.dev/v1/services?skip=0&take=25"
+          },
+          "docs": "List services with pagination and optional project/environment filters."
+        },
+        {
+          "info": {
+            "name": "Update service scaling",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.flightcontrol.dev/v1/services/{serviceId}/scaling",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"operation\": \"set\",\n  \"count\": 5\n}"
+            }
+          },
+          "docs": "Set, add, or remove the desired instance count for a service."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CloudFront",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create CloudFront cache invalidation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.flightcontrol.dev/v1/services/{serviceId}/cloudfront/invalidation",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"paths\": [\"/*\"]\n}"
+            }
+          },
+          "docs": "Invalidate one or more paths in a service's CloudFront distribution."
+        },
+        {
+          "info": {
+            "name": "Get CloudFront invalidation status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.flightcontrol.dev/v1/cloudfront/invalidation/{invalidationId}"
+          },
+          "docs": "Check the status of a previously created CloudFront cache invalidation."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Deploy Hooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Trigger deployment (deploy hook)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.flightcontrol.dev/api/deploy-hook/{envId}/{secret}",
+            "auth": {
+              "type": "none"
+            }
+          },
+          "docs": "Trigger a deployment for a normal environment. Secret is embedded in the path. Returns a deploymentId."
+        },
+        {
+          "info": {
+            "name": "Trigger preview deployment (deploy hook)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.flightcontrol.dev/api/deploy-hook/{previewEnvId}/{secret}/{prNumber}/{commitSHA}",
+            "auth": {
+              "type": "none"
+            }
+          },
+          "docs": "Trigger a deployment for a preview environment. Secret is embedded in the path. Returns a deploymentId."
+        }
+      ]
+    }
+  ]
+}

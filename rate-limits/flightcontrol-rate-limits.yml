@@ -1,0 +1,58 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Flightcontrol
+providerId: flightcontrol
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- Deployment
+- AWS
+- PaaS
+- Infrastructure
+- DevOps
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Flightcontrol does not publish specific numeric rate limits for its HTTP
+  management API or deploy hooks in the public documentation. The Get Services
+  endpoint is paginated (take defaults to 25, max 100), which bounds per-request
+  payload size. Practical throughput is also governed by plan-level service caps
+  and by the underlying AWS provisioning and deployment pipeline rather than by a
+  documented requests-per-minute throttle. Specific per-endpoint limits are not
+  reconciled in this artifact.
+notes: >-
+  Verify any account- or endpoint-level rate limits with Flightcontrol support or
+  in the API reference during reconciliation. Clients should treat HTTP 429 as a
+  throttling signal and back off.
+sources:
+- https://www.flightcontrol.dev/docs/reference/http-api
+- https://www.flightcontrol.dev/docs/reference/http-api/services/get-services
+responseCodes:
+  throttled: 429
+limits:
+- name: Get Services Page Size
+  scope: request
+  metric: records
+  limit: 100
+  notes: take query parameter defaults to 25 and is capped at 100 records per page.
+- name: HTTP Management API
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: No numeric requests-per-minute limit is published; not reconciled.
+- name: Deploy Hooks
+  scope: environment
+  metric: requests
+  limit: see provider documentation
+  notes: No numeric limit published; each call enqueues a deployment for an environment.
+policies:
+- name: Pagination
+  description: List endpoints use skip/take pagination to bound response size.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter on HTTP 429 and honor any Retry-After header.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

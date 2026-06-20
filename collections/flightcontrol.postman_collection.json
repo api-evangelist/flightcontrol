@@ -1,0 +1,333 @@
+{
+  "info": {
+    "name": "Flightcontrol Management API",
+    "description": "Documented Flightcontrol HTTP API - deployments, environments, services, environment variables, scaling, CloudFront invalidation, and deploy hooks.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{apiKey}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.flightcontrol.dev/v1"
+    },
+    {
+      "key": "appUrl",
+      "value": "https://app.flightcontrol.dev"
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Deployments",
+      "item": [
+        {
+          "name": "Get deployment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/deployments/:deploymentId",
+              "host": ["{{baseUrl}}"],
+              "path": ["deployments", ":deploymentId"],
+              "variable": [
+                {
+                  "key": "deploymentId",
+                  "value": "clcpcxekt000lc9ojqtgtc26y"
+                }
+              ]
+            },
+            "description": "Retrieve information and status for a deployment, including per-service deployment details."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Environments",
+      "item": [
+        {
+          "name": "Create environment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"production\",\n  \"region\": \"us-east-1\",\n  \"source\": {\n    \"branch\": \"main\",\n    \"trigger\": \"push\"\n  },\n  \"services\": [],\n  \"envVariables\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/projects/:projectId/environments",
+              "host": ["{{baseUrl}}"],
+              "path": ["projects", ":projectId", "environments"],
+              "variable": [
+                {
+                  "key": "projectId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Create a new environment in a project."
+          },
+          "response": []
+        },
+        {
+          "name": "Edit environment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"production\",\n  \"region\": \"us-east-1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/projects/:projectId/environments",
+              "host": ["{{baseUrl}}"],
+              "path": ["projects", ":projectId", "environments"],
+              "variable": [
+                {
+                  "key": "projectId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Edit an existing environment in a project."
+          },
+          "response": []
+        },
+        {
+          "name": "Create environment variables",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plainText\": {\n    \"NODE_ENV\": \"production\"\n  },\n  \"secretsManager\": {\n    \"API_SECRET\": \"api-secret-456\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/environments/:environmentId/env-variables",
+              "host": ["{{baseUrl}}"],
+              "path": ["environments", ":environmentId", "env-variables"],
+              "variable": [
+                {
+                  "key": "environmentId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Set environment variables for an environment (plain text, FC-managed secrets, references, or service links)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Services",
+      "item": [
+        {
+          "name": "Get services",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/services?skip=0&take=25",
+              "host": ["{{baseUrl}}"],
+              "path": ["services"],
+              "query": [
+                { "key": "skip", "value": "0" },
+                { "key": "take", "value": "25" },
+                { "key": "projectId", "value": "", "disabled": true },
+                { "key": "environmentId", "value": "", "disabled": true },
+                { "key": "environmentType", "value": "standard", "disabled": true }
+              ]
+            },
+            "description": "List services with pagination and optional project/environment filters."
+          },
+          "response": []
+        },
+        {
+          "name": "Update service scaling",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operation\": \"set\",\n  \"count\": 5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/services/:serviceId/scaling",
+              "host": ["{{baseUrl}}"],
+              "path": ["services", ":serviceId", "scaling"],
+              "variable": [
+                {
+                  "key": "serviceId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Set, add, or remove the desired instance count for a service."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "CloudFront",
+      "item": [
+        {
+          "name": "Create CloudFront cache invalidation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paths\": [\"/*\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/services/:serviceId/cloudfront/invalidation",
+              "host": ["{{baseUrl}}"],
+              "path": ["services", ":serviceId", "cloudfront", "invalidation"],
+              "variable": [
+                {
+                  "key": "serviceId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Invalidate one or more paths in a service's CloudFront distribution."
+          },
+          "response": []
+        },
+        {
+          "name": "Get CloudFront invalidation status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cloudfront/invalidation/:invalidationId",
+              "host": ["{{baseUrl}}"],
+              "path": ["cloudfront", "invalidation", ":invalidationId"],
+              "variable": [
+                {
+                  "key": "invalidationId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Check the status of a previously created CloudFront cache invalidation."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Deploy Hooks",
+      "item": [
+        {
+          "name": "Trigger deployment (deploy hook)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{appUrl}}/api/deploy-hook/:envId/:secret",
+              "host": ["{{appUrl}}"],
+              "path": ["api", "deploy-hook", ":envId", ":secret"],
+              "variable": [
+                { "key": "envId", "value": "" },
+                { "key": "secret", "value": "" }
+              ]
+            },
+            "description": "Trigger a deployment for a normal environment. Secret is embedded in the path. Returns a deploymentId."
+          },
+          "response": []
+        },
+        {
+          "name": "Trigger preview deployment (deploy hook)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{appUrl}}/api/deploy-hook/:previewEnvId/:secret/:prNumber/:commitSHA",
+              "host": ["{{appUrl}}"],
+              "path": ["api", "deploy-hook", ":previewEnvId", ":secret", ":prNumber", ":commitSHA"],
+              "variable": [
+                { "key": "previewEnvId", "value": "" },
+                { "key": "secret", "value": "" },
+                { "key": "prNumber", "value": "" },
+                { "key": "commitSHA", "value": "" }
+              ]
+            },
+            "description": "Trigger a deployment for a preview environment. Secret is embedded in the path. Returns a deploymentId."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
