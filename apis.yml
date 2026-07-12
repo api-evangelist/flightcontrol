@@ -99,6 +99,10 @@ apis:
     environments, services, regions, sources, and environment variables that drive
     AWS provisioning; a published JSON Schema enables editor autocompletion.
 common:
+- type: DomainSecurity
+  url: security/flightcontrol-domain-security.yml
+- type: Authentication
+  url: authentication/flightcontrol-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/flightcontrol
 - type: Website
@@ -111,6 +115,8 @@ common:
   url: rate-limits/flightcontrol-rate-limits.yml
 - type: FinOps
   url: finops/flightcontrol-finops.yml
+- url: https://www.flightcontrol.dev/blog
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
