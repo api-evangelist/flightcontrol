@@ -99,6 +99,8 @@ apis:
     environments, services, regions, sources, and environment variables that drive
     AWS provisioning; a published JSON Schema enables editor autocompletion.
 common:
+- type: AgenticAccess
+  url: agentic-access/flightcontrol-agentic-access.yml
 - type: DomainSecurity
   url: security/flightcontrol-domain-security.yml
 - type: Authentication
