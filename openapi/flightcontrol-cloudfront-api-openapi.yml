@@ -1,0 +1,92 @@
+openapi: 3.0.1
+info:
+  title: Flightcontrol Management CloudFront API
+  description: Specification of the documented Flightcontrol HTTP API. Flightcontrol deploys applications to your own AWS account. This API lets you integrate Flightcontrol with CI/CD and automation - trigger deployments via deploy hooks, read deployment status, create and edit environments, list services, set environment variables, update service scaling, run scheduler jobs, and invalidate CloudFront caches.
+  termsOfService: https://www.flightcontrol.dev/legal/terms
+  contact:
+    name: Flightcontrol Support
+    url: https://www.flightcontrol.dev/docs
+  version: '1.0'
+servers:
+- url: https://api.flightcontrol.dev
+  description: Authenticated management API (Bearer API key).
+- url: https://app.flightcontrol.dev
+  description: Deploy hook endpoints (secret embedded in path).
+security:
+- bearerAuth: []
+tags:
+- name: CloudFront
+paths:
+  /v1/services/{serviceId}/cloudfront/invalidation:
+    post:
+      operationId: createCloudFrontInvalidation
+      tags:
+      - CloudFront
+      summary: Create CloudFront cache invalidation
+      description: Invalidate one or more paths in a service's CloudFront distribution.
+      parameters:
+      - name: serviceId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvalidationRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidationResponse'
+        '401':
+          description: Unauthorized
+  /v1/cloudfront/invalidation/{invalidationId}:
+    get:
+      operationId: getCloudFrontInvalidationStatus
+      tags:
+      - CloudFront
+      summary: Get CloudFront invalidation status
+      description: Check the status of a previously created CloudFront cache invalidation.
+      parameters:
+      - name: invalidationId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Invalidation not found
+components:
+  schemas:
+    InvalidationResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        invalidationId:
+          type: string
+    InvalidationRequest:
+      type: object
+      required:
+      - paths
+      properties:
+        paths:
+          type: array
+          items:
+            type: string
+          example:
+          - /*
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Flightcontrol API key passed as a Bearer token in the Authorization header.

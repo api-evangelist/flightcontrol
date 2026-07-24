@@ -1,0 +1,107 @@
+openapi: 3.0.1
+info:
+  title: Flightcontrol Management CloudFront Environment Variables API
+  description: Specification of the documented Flightcontrol HTTP API. Flightcontrol deploys applications to your own AWS account. This API lets you integrate Flightcontrol with CI/CD and automation - trigger deployments via deploy hooks, read deployment status, create and edit environments, list services, set environment variables, update service scaling, run scheduler jobs, and invalidate CloudFront caches.
+  termsOfService: https://www.flightcontrol.dev/legal/terms
+  contact:
+    name: Flightcontrol Support
+    url: https://www.flightcontrol.dev/docs
+  version: '1.0'
+servers:
+- url: https://api.flightcontrol.dev
+  description: Authenticated management API (Bearer API key).
+- url: https://app.flightcontrol.dev
+  description: Deploy hook endpoints (secret embedded in path).
+security:
+- bearerAuth: []
+tags:
+- name: Environment Variables
+paths:
+  /v1/environments/{environmentId}/env-variables:
+    post:
+      operationId: createEnvironmentEnvVariables
+      tags:
+      - Environment Variables
+      summary: Create environment variables
+      description: Set environment variables for an environment. Supports plain text values, FC-managed Parameter Store / Secrets Manager secrets, references to your existing Parameter Store / Secrets Manager entries, and values linked from other services.
+      parameters:
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvVariablesRequest'
+      responses:
+        '200':
+          description: Completed synchronously
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvVariablesSyncResponse'
+        '202':
+          description: Accepted - FC-managed secrets are processing asynchronously
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvVariablesAsyncResponse'
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+    EnvVariablesSyncResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: completed
+        savedCount:
+          type: integer
+    EnvVariablesAsyncResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: processing
+        runId:
+          type: string
+        savedCount:
+          type: integer
+        processingCount:
+          type: integer
+    EnvVariablesRequest:
+      type: object
+      properties:
+        plainText:
+          type: object
+          additionalProperties:
+            type: string
+        parameterStore:
+          type: object
+          additionalProperties:
+            type: string
+        secretsManager:
+          type: object
+          additionalProperties:
+            type: string
+        fromParameterStore:
+          type: object
+          additionalProperties:
+            type: string
+        fromSecretsManager:
+          type: object
+          additionalProperties:
+            type: string
+        fromService:
+          type: object
+          additionalProperties:
+            type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Flightcontrol API key passed as a Bearer token in the Authorization header.

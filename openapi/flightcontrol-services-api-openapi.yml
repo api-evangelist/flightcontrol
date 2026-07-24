@@ -1,0 +1,174 @@
+openapi: 3.0.1
+info:
+  title: Flightcontrol Management CloudFront Services API
+  description: Specification of the documented Flightcontrol HTTP API. Flightcontrol deploys applications to your own AWS account. This API lets you integrate Flightcontrol with CI/CD and automation - trigger deployments via deploy hooks, read deployment status, create and edit environments, list services, set environment variables, update service scaling, run scheduler jobs, and invalidate CloudFront caches.
+  termsOfService: https://www.flightcontrol.dev/legal/terms
+  contact:
+    name: Flightcontrol Support
+    url: https://www.flightcontrol.dev/docs
+  version: '1.0'
+servers:
+- url: https://api.flightcontrol.dev
+  description: Authenticated management API (Bearer API key).
+- url: https://app.flightcontrol.dev
+  description: Deploy hook endpoints (secret embedded in path).
+security:
+- bearerAuth: []
+tags:
+- name: Services
+paths:
+  /v1/services:
+    get:
+      operationId: getServices
+      tags:
+      - Services
+      summary: Get services
+      description: List services with pagination and optional project/environment filters.
+      parameters:
+      - name: skip
+        in: query
+        schema:
+          type: integer
+          default: 0
+      - name: take
+        in: query
+        schema:
+          type: integer
+          default: 25
+          maximum: 100
+      - name: projectId
+        in: query
+        schema:
+          type: string
+      - name: environmentId
+        in: query
+        schema:
+          type: string
+      - name: previewEnvironmentId
+        in: query
+        schema:
+          type: string
+      - name: type
+        in: query
+        schema:
+          type: string
+      - name: environmentType
+        in: query
+        schema:
+          type: string
+          enum:
+          - standard
+          - preview
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceList'
+        '401':
+          description: Unauthorized
+  /v1/services/{serviceId}/scaling:
+    post:
+      operationId: updateScaling
+      tags:
+      - Services
+      summary: Update service scaling
+      description: Set, add, or remove the desired instance count for a service. Supported for web, private web, worker, and network server services.
+      parameters:
+      - name: serviceId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScalingRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScalingResponse'
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+    ScalingRequest:
+      type: object
+      required:
+      - operation
+      - count
+      properties:
+        operation:
+          type: string
+          enum:
+          - set
+          - add
+          - remove
+        count:
+          type: integer
+    ScalingResponse:
+      type: object
+      properties:
+        serviceId:
+          type: string
+        previousDesiredCount:
+          type: integer
+        newDesiredCount:
+          type: integer
+        autoscalingEnabled:
+          type: boolean
+    Service:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        givenId:
+          type: string
+        type:
+          type: string
+        environmentId:
+          type: string
+        projectId:
+          type: string
+        previewEnvironmentId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ServiceList:
+      type: object
+      properties:
+        count:
+          type: integer
+        hasMore:
+          type: boolean
+        hasPrevious:
+          type: boolean
+        nextPage:
+          type: integer
+        previousPage:
+          type: integer
+        pageCount:
+          type: integer
+        pageSize:
+          type: integer
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Flightcontrol API key passed as a Bearer token in the Authorization header.

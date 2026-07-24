@@ -1,0 +1,110 @@
+openapi: 3.0.1
+info:
+  title: Flightcontrol Management CloudFront Environments API
+  description: Specification of the documented Flightcontrol HTTP API. Flightcontrol deploys applications to your own AWS account. This API lets you integrate Flightcontrol with CI/CD and automation - trigger deployments via deploy hooks, read deployment status, create and edit environments, list services, set environment variables, update service scaling, run scheduler jobs, and invalidate CloudFront caches.
+  termsOfService: https://www.flightcontrol.dev/legal/terms
+  contact:
+    name: Flightcontrol Support
+    url: https://www.flightcontrol.dev/docs
+  version: '1.0'
+servers:
+- url: https://api.flightcontrol.dev
+  description: Authenticated management API (Bearer API key).
+- url: https://app.flightcontrol.dev
+  description: Deploy hook endpoints (secret embedded in path).
+security:
+- bearerAuth: []
+tags:
+- name: Environments
+paths:
+  /v1/projects/{projectId}/environments:
+    post:
+      operationId: createEnvironment
+      tags:
+      - Environments
+      summary: Create environment
+      description: Create a new environment in a project.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEnvironmentRequest'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+    patch:
+      operationId: editEnvironment
+      tags:
+      - Environments
+      summary: Edit environment
+      description: Edit an existing environment in a project.
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEnvironmentRequest'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+    CreateEnvironmentRequest:
+      type: object
+      required:
+      - name
+      - region
+      properties:
+        name:
+          type: string
+        region:
+          type: string
+        source:
+          type: object
+          properties:
+            branch:
+              type: string
+            trigger:
+              type: string
+              enum:
+              - push
+              - manual
+        services:
+          type: array
+          items:
+            type: object
+        vpc:
+          type: object
+          properties:
+            id:
+              type: string
+            cidr:
+              type: string
+            private:
+              type: boolean
+        envVariables:
+          type: object
+          additionalProperties:
+            type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Flightcontrol API key passed as a Bearer token in the Authorization header.

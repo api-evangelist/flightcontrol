@@ -1,0 +1,120 @@
+openapi: 3.0.1
+info:
+  title: Flightcontrol Management CloudFront Deploy Hooks API
+  description: Specification of the documented Flightcontrol HTTP API. Flightcontrol deploys applications to your own AWS account. This API lets you integrate Flightcontrol with CI/CD and automation - trigger deployments via deploy hooks, read deployment status, create and edit environments, list services, set environment variables, update service scaling, run scheduler jobs, and invalidate CloudFront caches.
+  termsOfService: https://www.flightcontrol.dev/legal/terms
+  contact:
+    name: Flightcontrol Support
+    url: https://www.flightcontrol.dev/docs
+  version: '1.0'
+servers:
+- url: https://api.flightcontrol.dev
+  description: Authenticated management API (Bearer API key).
+- url: https://app.flightcontrol.dev
+  description: Deploy hook endpoints (secret embedded in path).
+security:
+- bearerAuth: []
+tags:
+- name: Deploy Hooks
+paths:
+  /api/deploy-hook/{envId}/{secret}:
+    get:
+      operationId: triggerDeployHook
+      tags:
+      - Deploy Hooks
+      summary: Trigger deployment (deploy hook)
+      description: Trigger a deployment for a normal environment. Authentication is provided by the secret embedded in the path; no Authorization header is used. Returns the new deploymentId.
+      security: []
+      servers:
+      - url: https://app.flightcontrol.dev
+      parameters:
+      - name: envId
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: secret
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: commit
+        in: query
+        description: Specific git commit SHA to deploy.
+        schema:
+          type: string
+      - name: branch
+        in: query
+        description: Repository branch (required if commit is specified).
+        schema:
+          type: string
+      - name: force
+        in: query
+        description: Deploy all services, ignoring watchPaths.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeployHookResponse'
+  /api/deploy-hook/{previewEnvId}/{secret}/{prNumber}/{commitSHA}:
+    get:
+      operationId: triggerPreviewDeployHook
+      tags:
+      - Deploy Hooks
+      summary: Trigger preview deployment (deploy hook)
+      description: Trigger a deployment for a preview environment. Authentication is provided by the secret embedded in the path. Returns the new deploymentId.
+      security: []
+      servers:
+      - url: https://app.flightcontrol.dev
+      parameters:
+      - name: previewEnvId
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: secret
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: prNumber
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: commitSHA
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: force
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeployHookResponse'
+components:
+  schemas:
+    DeployHookResponse:
+      type: object
+      properties:
+        success:
+          type: string
+          example: 'true'
+        deploymentId:
+          type: string
+          example: clcpcxekt000lc9ojqtgtc26y
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Flightcontrol API key passed as a Bearer token in the Authorization header.
