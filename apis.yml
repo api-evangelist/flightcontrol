@@ -7,7 +7,20 @@ description: Flightcontrol deploys applications to your own AWS account with a H
   config-as-code file and exposes an HTTP management API for triggering deployments,
   managing environments, services, environment variables, scaling, jobs, domains,
   and CloudFront cache invalidation.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/flightcontrol.png
 tags:
 - Deployment
 - AWS
@@ -18,69 +31,6 @@ created: '2026-06-20'
 modified: '2026-06-20'
 specificationVersion: '0.19'
 apis:
-- aid: flightcontrol:flightcontrol-management-api
-  name: Flightcontrol Management API
-  tags:
-  - Deployments
-  - Environments
-  - Services
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.flightcontrol.dev/docs/reference/http-api
-  baseURL: https://api.flightcontrol.dev/v1
-  properties:
-  - url: https://www.flightcontrol.dev/docs/reference/http-api
-    type: Documentation
-  - url: https://www.flightcontrol.dev/docs/reference/http-api
-    type: APIReference
-  - url: openapi/flightcontrol-openapi.yml
-    type: OpenAPI
-  - url: collections/flightcontrol.postman_collection.json
-    type: PostmanCollection
-  - url: collections/flightcontrol.opencollection.json
-    type: OpenCollection
-  description: Bearer-authenticated HTTP API to integrate Flightcontrol with CI/CD
-    and automation - read deployment status, create and edit environments, list services,
-    set environment variables, update service scaling, and run scheduler jobs.
-- aid: flightcontrol:flightcontrol-deploy-hooks-api
-  name: Flightcontrol Deploy Hooks API
-  tags:
-  - Deploy Hooks
-  - Webhooks
-  - CI/CD
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.flightcontrol.dev/docs/reference/http-api/deployments/deploy-hooks
-  baseURL: https://app.flightcontrol.dev/api
-  properties:
-  - url: https://www.flightcontrol.dev/docs/reference/http-api/deployments/deploy-hooks
-    type: Documentation
-  - url: openapi/flightcontrol-openapi.yml
-    type: OpenAPI
-  - url: collections/flightcontrol.postman_collection.json
-    type: PostmanCollection
-  - url: collections/flightcontrol.opencollection.json
-    type: OpenCollection
-  description: Secret-in-URL GET deploy hooks to trigger a deployment for a normal
-    or preview environment from any build or CI system; returns the new deploymentId.
-- aid: flightcontrol:flightcontrol-cloudfront-api
-  name: Flightcontrol CloudFront Invalidation API
-  tags:
-  - CloudFront
-  - Cache
-  - CDN
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.flightcontrol.dev/docs/reference/http-api/cloudfront/cache-invalidation-api
-  baseURL: https://api.flightcontrol.dev/v1
-  properties:
-  - url: https://www.flightcontrol.dev/docs/reference/http-api/cloudfront/cache-invalidation-api
-    type: Documentation
-  - url: openapi/flightcontrol-openapi.yml
-    type: OpenAPI
-  - url: collections/flightcontrol.postman_collection.json
-    type: PostmanCollection
-  - url: collections/flightcontrol.opencollection.json
-    type: OpenCollection
-  description: Create a CloudFront cache invalidation for a service's distribution and
-    check the status of a prior invalidation request.
 - aid: flightcontrol:flightcontrol-config-as-code
   name: Flightcontrol Config-as-Code
   tags:
@@ -95,9 +45,143 @@ apis:
     type: Documentation
   - url: https://app.flightcontrol.dev/schema.json
     type: JSONSchema
-  description: Version-controlled flightcontrol.json (or flightcontrol.cue) declaring
-    environments, services, regions, sources, and environment variables that drive
-    AWS provisioning; a published JSON Schema enables editor autocompletion.
+  description: >-
+    Version-controlled flightcontrol.json (or flightcontrol.cue) declaring environments, services, regions,
+    sources, and environment variables that drive AWS provisioning; a published JSON Schema enables editor
+    autocompletion.
+- aid: flightcontrol:flightcontrol-cloudfront-api
+  name: Flightcontrol CloudFront API
+  description: The CloudFront API from Flightcontrol — 2 operation(s) for cloudfront.
+  humanURL: https://www.flightcontrol.dev/docs/reference/http-api
+  baseURL: https://api.flightcontrol.dev/v1
+  tags:
+  - CloudFront
+  properties:
+  - type: OpenAPI
+    url: openapi/flightcontrol-cloudfront-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: APIReference
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: PostmanCollection
+    url: collections/flightcontrol.postman_collection.json
+  - type: OpenCollection
+    url: collections/flightcontrol.opencollection.json
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/deployments/deploy-hooks
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/cloudfront/cache-invalidation-api
+- aid: flightcontrol:flightcontrol-deploy-hooks-api
+  name: Flightcontrol Deploy Hooks API
+  description: The Deploy Hooks API from Flightcontrol — 2 operation(s) for deploy hooks.
+  humanURL: https://www.flightcontrol.dev/docs/reference/http-api
+  baseURL: https://api.flightcontrol.dev/v1
+  tags:
+  - Deploy Hooks
+  properties:
+  - type: OpenAPI
+    url: openapi/flightcontrol-deploy-hooks-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: APIReference
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: PostmanCollection
+    url: collections/flightcontrol.postman_collection.json
+  - type: OpenCollection
+    url: collections/flightcontrol.opencollection.json
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/deployments/deploy-hooks
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/cloudfront/cache-invalidation-api
+- aid: flightcontrol:flightcontrol-deployments-api
+  name: Flightcontrol Deployments API
+  description: The Deployments API from Flightcontrol — 1 operation(s) for deployments.
+  humanURL: https://www.flightcontrol.dev/docs/reference/http-api
+  baseURL: https://api.flightcontrol.dev/v1
+  tags:
+  - Deployments
+  properties:
+  - type: OpenAPI
+    url: openapi/flightcontrol-deployments-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: APIReference
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: PostmanCollection
+    url: collections/flightcontrol.postman_collection.json
+  - type: OpenCollection
+    url: collections/flightcontrol.opencollection.json
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/deployments/deploy-hooks
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/cloudfront/cache-invalidation-api
+- aid: flightcontrol:flightcontrol-environment-variables-api
+  name: Flightcontrol Environment Variables API
+  description: >-
+    The Environment Variables API from Flightcontrol — 1 operation(s) for environment variables.
+  humanURL: https://www.flightcontrol.dev/docs/reference/http-api
+  baseURL: https://api.flightcontrol.dev/v1
+  tags:
+  - Environment Variables
+  properties:
+  - type: OpenAPI
+    url: openapi/flightcontrol-environment-variables-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: APIReference
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: PostmanCollection
+    url: collections/flightcontrol.postman_collection.json
+  - type: OpenCollection
+    url: collections/flightcontrol.opencollection.json
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/deployments/deploy-hooks
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/cloudfront/cache-invalidation-api
+- aid: flightcontrol:flightcontrol-environments-api
+  name: Flightcontrol Environments API
+  description: The Environments API from Flightcontrol — 1 operation(s) for environments.
+  humanURL: https://www.flightcontrol.dev/docs/reference/http-api
+  baseURL: https://api.flightcontrol.dev/v1
+  tags:
+  - Environments
+  properties:
+  - type: OpenAPI
+    url: openapi/flightcontrol-environments-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: APIReference
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: PostmanCollection
+    url: collections/flightcontrol.postman_collection.json
+  - type: OpenCollection
+    url: collections/flightcontrol.opencollection.json
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/deployments/deploy-hooks
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/cloudfront/cache-invalidation-api
+- aid: flightcontrol:flightcontrol-services-api
+  name: Flightcontrol Services API
+  description: The Services API from Flightcontrol — 2 operation(s) for services.
+  humanURL: https://www.flightcontrol.dev/docs/reference/http-api
+  baseURL: https://api.flightcontrol.dev/v1
+  tags:
+  - Services
+  properties:
+  - type: OpenAPI
+    url: openapi/flightcontrol-services-api-openapi.yml
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: APIReference
+    url: https://www.flightcontrol.dev/docs/reference/http-api
+  - type: PostmanCollection
+    url: collections/flightcontrol.postman_collection.json
+  - type: OpenCollection
+    url: collections/flightcontrol.opencollection.json
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/deployments/deploy-hooks
+  - type: Documentation
+    url: https://www.flightcontrol.dev/docs/reference/http-api/cloudfront/cache-invalidation-api
 common:
 - type: AgenticAccess
   url: agentic-access/flightcontrol-agentic-access.yml
