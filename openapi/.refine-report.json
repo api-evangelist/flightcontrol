@@ -1,0 +1,24 @@
+{
+  "provider": "flightcontrol",
+  "sources": [
+    "flightcontrol-cloudfront-api-openapi.yml",
+    "flightcontrol-deploy-hooks-api-openapi.yml",
+    "flightcontrol-deployments-api-openapi.yml",
+    "flightcontrol-environment-variables-api-openapi.yml",
+    "flightcontrol-environments-api-openapi.yml",
+    "flightcontrol-services-api-openapi.yml"
+  ],
+  "outputs": [
+    "flightcontrol-cloudfront-api-openapi.yml",
+    "flightcontrol-deploy-hooks-api-openapi.yml",
+    "flightcontrol-deployments-api-openapi.yml",
+    "flightcontrol-environment-variables-api-openapi.yml",
+    "flightcontrol-environments-api-openapi.yml",
+    "flightcontrol-services-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
