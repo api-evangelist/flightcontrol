@@ -1,0 +1,103 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Flightcontrol Management CloudFront Deploy Hooks API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Deploy Hooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Trigger deployment (deploy hook)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.flightcontrol.dev/api/deploy-hook/:envId/:secret",
+            "params": [
+              {
+                "name": "envId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "secret",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "commit",
+                "value": "",
+                "type": "query",
+                "description": "Specific git commit SHA to deploy."
+              },
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "Repository branch (required if commit is specified)."
+              },
+              {
+                "name": "force",
+                "value": "",
+                "type": "query",
+                "description": "Deploy all services, ignoring watchPaths."
+              }
+            ]
+          },
+          "docs": "Trigger a deployment for a normal environment. Authentication is provided by the secret embedded in the path; no Authorization header is used. Returns the new deploymentId."
+        },
+        {
+          "info": {
+            "name": "Trigger preview deployment (deploy hook)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.flightcontrol.dev/api/deploy-hook/:previewEnvId/:secret/:prNumber/:commitSHA",
+            "params": [
+              {
+                "name": "previewEnvId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "secret",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "prNumber",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "commitSHA",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "force",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Trigger a deployment for a preview environment. Authentication is provided by the secret embedded in the path. Returns the new deploymentId."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,64 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Flightcontrol Management CloudFront API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CloudFront",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create CloudFront cache invalidation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.flightcontrol.dev/v1/services/:serviceId/cloudfront/invalidation",
+            "params": [
+              {
+                "name": "serviceId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invalidate one or more paths in a service's CloudFront distribution."
+        },
+        {
+          "info": {
+            "name": "Get CloudFront invalidation status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.flightcontrol.dev/v1/cloudfront/invalidation/:invalidationId",
+            "params": [
+              {
+                "name": "invalidationId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Check the status of a previously created CloudFront cache invalidation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

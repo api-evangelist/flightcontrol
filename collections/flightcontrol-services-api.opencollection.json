@@ -1,0 +1,94 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Flightcontrol Management CloudFront Services API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Services",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.flightcontrol.dev/v1/services",
+            "params": [
+              {
+                "name": "skip",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "take",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "previewEnvironmentId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "environmentType",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List services with pagination and optional project/environment filters."
+        },
+        {
+          "info": {
+            "name": "Update service scaling",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.flightcontrol.dev/v1/services/:serviceId/scaling",
+            "params": [
+              {
+                "name": "serviceId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set, add, or remove the desired instance count for a service. Supported for web, private web, worker, and network server services."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

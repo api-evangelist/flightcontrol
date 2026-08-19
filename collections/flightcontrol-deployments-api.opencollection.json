@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Flightcontrol Management CloudFront Deployments API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Deployments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.flightcontrol.dev/v1/deployments/:deploymentId",
+            "params": [
+              {
+                "name": "deploymentId",
+                "value": "",
+                "type": "path",
+                "description": "The deployment identifier."
+              }
+            ]
+          },
+          "docs": "Retrieve information and status for a deployment, including per-service deployment details. The deploymentId is returned when a deployment is triggered (for example via a deploy hook)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,46 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Flightcontrol Management CloudFront Environment Variables API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Environment Variables",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create environment variables",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.flightcontrol.dev/v1/environments/:environmentId/env-variables",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set environment variables for an environment. Supports plain text values, FC-managed Parameter Store / Secrets Manager secrets, references to your existing Parameter Store / Secrets Manager entries, and values linked from other services."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
