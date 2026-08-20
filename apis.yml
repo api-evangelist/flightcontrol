@@ -24,6 +24,12 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/flightcont
 tags:
 - Deployment
 - AWS
+- Platform-as-a-Service
+- Infrastructure
+- DevOps
+tags_raw:
+- Deployment
+- AWS
 - PaaS
 - Infrastructure
 - DevOps
@@ -99,6 +105,8 @@ apis:
   humanURL: https://www.flightcontrol.dev/docs/reference/http-api
   baseURL: https://api.flightcontrol.dev/v1
   tags:
+  - Deployment
+  tags_raw:
   - Deployments
   properties:
   - type: OpenAPI
