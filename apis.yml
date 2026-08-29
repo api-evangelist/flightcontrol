@@ -7,6 +7,18 @@ description: Flightcontrol deploys applications to your own AWS account with a H
   config-as-code file and exposes an HTTP management API for triggering deployments,
   managing environments, services, environment variables, scaling, jobs, domains,
   and CloudFront cache invalidation.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
