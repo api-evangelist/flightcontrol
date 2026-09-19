@@ -166,6 +166,8 @@ apis:
   humanURL: https://www.flightcontrol.dev/docs/reference/http-api
   baseURL: https://api.flightcontrol.dev/v1
   tags:
+  - Environment
+  tags_raw:
   - Environments
   properties:
   - type: OpenAPI
