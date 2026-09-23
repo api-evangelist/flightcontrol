@@ -1,12 +1,7 @@
 {
   "provider": "flightcontrol",
   "sources": [
-    "flightcontrol-cloudfront-api-openapi.yml",
-    "flightcontrol-deploy-hooks-api-openapi.yml",
-    "flightcontrol-deployments-api-openapi.yml",
-    "flightcontrol-environment-variables-api-openapi.yml",
-    "flightcontrol-environments-api-openapi.yml",
-    "flightcontrol-services-api-openapi.yml"
+    "_original/flightcontrol-openapi.yml"
   ],
   "outputs": [
     "flightcontrol-cloudfront-api-openapi.yml",
@@ -19,6 +14,23 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "flightcontrol-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "flightcontrol-openapi.yml: declared missing tag: CloudFront",
+    "flightcontrol-openapi.yml: declared missing tag: Deploy Hooks",
+    "flightcontrol-openapi.yml: declared missing tag: Deployments",
+    "flightcontrol-openapi.yml: declared missing tag: Environment Variables",
+    "flightcontrol-openapi.yml: declared missing tag: Environments",
+    "flightcontrol-openapi.yml: declared missing tag: Services",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "flightcontrol-cloudfront-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "flightcontrol-deploy-hooks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "flightcontrol-deployments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "flightcontrol-environment-variables-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "flightcontrol-environments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "flightcontrol-services-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

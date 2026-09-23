@@ -1,0 +1,29 @@
+# Front Door AI Index — flightcontrol — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: flightcontrol
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.flightcontrol.dev
+  final_host: www.ravion.com
+  ownership: own
+  owner: flightcontrol
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 5
+  host_score: 5
+  density: 3.34
+  words: 1498
+  tiers:
+    agentic: 2
+    core: 3
+    model: 0
+  ambiguous: 9
+  top_terms:
+    agent: 8
+    AI: 3
+    AI agent: 1
+    MCP: 1
+    automation: 1
