@@ -67,13 +67,6 @@ paths:
           description: Invalidation not found
 components:
   schemas:
-    InvalidationResponse:
-      type: object
-      properties:
-        message:
-          type: string
-        invalidationId:
-          type: string
     InvalidationRequest:
       type: object
       required:
@@ -85,6 +78,13 @@ components:
             type: string
           example:
           - /*
+    InvalidationResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        invalidationId:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
