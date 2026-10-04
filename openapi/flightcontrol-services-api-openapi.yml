@@ -135,17 +135,6 @@ components:
           - remove
         count:
           type: integer
-    ScalingResponse:
-      type: object
-      properties:
-        serviceId:
-          type: string
-        previousDesiredCount:
-          type: integer
-        newDesiredCount:
-          type: integer
-        autoscalingEnabled:
-          type: boolean
     ServiceList:
       type: object
       properties:
@@ -167,6 +156,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Service'
+    ScalingResponse:
+      type: object
+      properties:
+        serviceId:
+          type: string
+        previousDesiredCount:
+          type: integer
+        newDesiredCount:
+          type: integer
+        autoscalingEnabled:
+          type: boolean
   securitySchemes:
     bearerAuth:
       type: http

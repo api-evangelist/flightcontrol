@@ -53,6 +53,26 @@ paths:
           description: Unauthorized
 components:
   schemas:
+    EnvVariablesSyncResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: completed
+        savedCount:
+          type: integer
+    EnvVariablesAsyncResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: processing
+        runId:
+          type: string
+        savedCount:
+          type: integer
+        processingCount:
+          type: integer
     EnvVariablesRequest:
       type: object
       properties:
@@ -80,26 +100,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    EnvVariablesSyncResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          example: completed
-        savedCount:
-          type: integer
-    EnvVariablesAsyncResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          example: processing
-        runId:
-          type: string
-        savedCount:
-          type: integer
-        processingCount:
-          type: integer
   securitySchemes:
     bearerAuth:
       type: http
