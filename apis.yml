@@ -207,6 +207,9 @@ apis:
   - type: Documentation
     url: https://www.flightcontrol.dev/docs/reference/http-api/cloudfront/cache-invalidation-api
 common:
+- type: CapabilityMap
+  url: capabilities/flightcontrol-capability-edges.yml
+  name: Flightcontrol Business Capability Map
 - type: AgenticAccess
   url: agentic-access/flightcontrol-agentic-access.yml
 - type: DomainSecurity

@@ -1,0 +1,59 @@
+slug: flightcontrol
+provider: Flightcontrol
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Deploy Hooks
+  spec_file: flightcontrol-deploy-hooks-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.82
+  evidence: GET /api/deploy-hook/{envId}/{secret} — 'Trigger deployment (deploy hook)'; 'Trigger preview
+    deployment (deploy hook)'
+  reason: These endpoints trigger deployments of application changes (including per-PR preview deploys)
+    from CI/CD, which is deployment orchestration. The spec itself states the API lets you 'trigger deployments
+    via deploy hooks'. Slight ambiguity with Continuous Integration Management keeps this below 0.9.
+- tag: Environment Variables
+  spec_file: flightcontrol-environment-variables-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.82
+  evidence: POST /v1/environments/{environmentId}/env-variables — 'Create environment variables'; schemas
+    'EnvVariablesRequest', 'EnvVariablesSyncResponse'
+  reason: Setting runtime environment variables for a deployed environment is Configuration & Secrets
+    Management for product services. The vendor description confirms 'set environment variables'. Not
+    an identity or tenant-configuration surface.
+- tag: Deployments
+  spec_file: flightcontrol-deployments-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.78
+  evidence: 'GET /v1/deployments/{deploymentId} — ''Get deployment''; schema ''Deployment''; description:
+    ''read deployment status'''
+  reason: Reading deployment records and status is part of orchestrating software changes into production.
+    Only a single read operation is exposed, so sub-capability assignment (orchestration vs release engineering
+    reporting) carries some ambiguity.
+- tag: Environments
+  spec_file: flightcontrol-environments-api-openapi.yml
+  capability_id: BC-4210.20
+  capability_id_l1: BC-4210
+  capability_name: Environment Management
+  confidence: 0.78
+  evidence: 'POST /v1/projects/{projectId}/environments — ''Create environment''; PATCH ... ''Edit environment'';
+    description: ''create and edit environments'''
+  reason: Provisioning and editing deployment environments within a project is Environment Management.
+    Slight uncertainty because Flightcontrol environments can include production as well as non-production,
+    which the sub-capability scopes to non-production.
